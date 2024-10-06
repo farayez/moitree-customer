@@ -24,6 +24,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="reactNative"
+        options={{
+          title: 'React Native',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'planet' : 'planet-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',

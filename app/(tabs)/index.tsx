@@ -1,11 +1,44 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+import React, { useState, useEffect } from 'react';
+import { Text, View } from 'react-native';
+
 export default function HomeScreen() {
+  const [data, setData] = useState<any>([]);
+  const [error, setError] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const url = 'http://localhost:3001/api/health-check';
+  useEffect(() => {
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3001',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    })
+      .then((resp) => {
+        console.log(resp);
+
+        return resp.json();
+      })
+      .then((json) => {
+        setData(json);
+        console.log(json);
+      })
+      .catch((reason) => {
+        setError(reason);
+        console.log('Error:', reason);
+        // throw reason;
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -16,35 +49,22 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Networking Test</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        {loading ? (
+          <Text>Loading....</Text>
+        ) : error ? (
+          <View>
+            <Text style={styles.title}>{error.message}</Text>
+          </View>
+        ) : (
+          <View>
+            <Text style={styles.title}>{data.env.APP_NAME}</Text>
+            <Text>{data.env.APP_ENV}</Text>
+          </View>
+        )}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -66,5 +86,15 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
   },
 });
