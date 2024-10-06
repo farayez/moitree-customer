@@ -9,7 +9,7 @@ import React from 'react';
 import useFetch from '@/hooks/useFetch';
 
 export default function HomeScreen() {
-  const url = 'http://192.168.0.244:3001/api/health-check';
+  const url = process.env.EXPO_PUBLIC_API_BASE_URL + '/health-check';
 
   const {
     data: healthCheckResponse,
@@ -29,6 +29,7 @@ export default function HomeScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Networking Test </ThemedText>
         <HelloWave />
+        <ThemedText>{process.env.EXPO_PUBLIC_APP_ENV}</ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         {healthCheckLoading ? (
