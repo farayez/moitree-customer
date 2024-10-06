@@ -5,39 +5,17 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import React from 'react';
+import useFetch from '@/hooks/useFetch';
 
 export default function HomeScreen() {
-  const [data, setData] = useState<any>([]);
-  const [error, setError] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const url = 'http://192.168.0.244:3001/api/health-check';
 
-  const url = 'http://localhost:3001/api/health-check';
-  useEffect(() => {
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:3001',
-        'Access-Control-Allow-Credentials': 'true',
-      },
-    })
-      .then((resp) => {
-        console.log(resp);
-
-        return resp.json();
-      })
-      .then((json) => {
-        setData(json);
-        console.log(json);
-      })
-      .catch((reason) => {
-        setError(reason);
-        console.log('Error:', reason);
-        // throw reason;
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const {
+    data: healthCheckResponse,
+    error: healthCheckError,
+    loading: healthCheckLoading,
+  } = useFetch(url);
 
   return (
     <ParallaxScrollView
@@ -49,21 +27,22 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Networking Test With Backend</ThemedText>
+        <ThemedText type="title">Networking Test </ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        {loading ? (
-          <Text>Loading....</Text>
-        ) : error ? (
-          <View>
-            <Text style={styles.title}>{error.message}</Text>
-          </View>
+        {healthCheckLoading ? (
+          <ThemedText>Loading....</ThemedText>
+        ) : healthCheckError ? (
+          <ThemedView style={styles.stepContainer}>
+            <ThemedText type="subtitle">{healthCheckError.message}</ThemedText>
+            <ThemedText type="defaultSemiBold">{healthCheckError?.cause?.error}</ThemedText>
+          </ThemedView>
         ) : (
-          <View>
-            <Text style={styles.title}>{data.env.APP_NAME}</Text>
-            <Text>{data.env.APP_ENV}</Text>
-          </View>
+          <ThemedView style={styles.stepContainer}>
+            <ThemedText type="subtitle">Response</ThemedText>
+            <ThemedText type="defaultSemiBold">{healthCheckResponse.app}</ThemedText>
+          </ThemedView>
         )}
       </ThemedView>
     </ParallaxScrollView>
