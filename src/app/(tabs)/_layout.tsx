@@ -24,9 +24,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="reactNative"
+        name="unitConverter"
         options={{
-          title: 'React Native',
+          title: 'Unit Converter',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'planet' : 'planet-outline'} color={color} />
           ),
@@ -39,6 +39,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="reactNative"
+        options={{
+          href: null, // This will hide the tab
         }}
       />
     </Tabs>
