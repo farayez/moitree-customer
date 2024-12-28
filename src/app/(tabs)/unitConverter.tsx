@@ -48,6 +48,14 @@ export default function UnitConverter() {
           <Picker.Item label="Feet" value="feet" />
           <Picker.Item label="Inches" value="inches" />
         </Picker>
+        <ThemedText type="subtitle">Value</ThemedText>
+        <TextInput
+          style={styles.numericInput}
+          keyboardType="numeric"
+          onChangeText={(text) => setFromInput(text)}
+          value={fromInput}
+        />
+
         <ThemedText type="subtitle">Convert To</ThemedText>
         <Picker
           style={styles.dropdown}
@@ -57,19 +65,13 @@ export default function UnitConverter() {
           <Picker.Item label="Feet" value="feet" />
           <Picker.Item label="Inches" value="inches" />
         </Picker>
-        <ThemedText type="subtitle">Value</ThemedText>
-        <TextInput
-          style={styles.numericInput}
-          keyboardType="numeric"
-          onChangeText={(text) => setFromInput(text)}
-          value={fromInput}
-        />
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button}>
-            <Text>Reset</Text>
+            <Text style={styles.buttonText}>Reset</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
-            <Text>Enter</Text>
+            <Text style={styles.buttonText}>Enter</Text>
           </TouchableOpacity>
         </View>
       </ThemedView>
@@ -102,32 +104,63 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: '100%',
-    padding: 8,
+    padding: 12,
     marginVertical: 8,
-    borderRadius: 4,
-    borderColor: '#ccc',
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    color: 'rgb(184, 184, 184)',
   },
   numericInput: {
     width: '100%',
-    padding: 8,
+    padding: 12,
     marginVertical: 8,
-    borderRadius: 4,
-    borderColor: '#ccc',
+    borderRadius: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 1,
+    color: 'rgb(184, 184, 184)',
+    fontSize: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    gap: 12,
     marginTop: 16,
   },
   button: {
-    padding: 12,
-    borderRadius: 4,
-    backgroundColor: 'rgb(89, 75, 139)',
-    color: '#fff',
-    textAlign: 'center',
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: 'rgba(89, 75, 139, 0.9)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 1,
     flex: 1,
-    marginHorizontal: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+    // Add inner glow effect
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+    borderTopColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
 });
