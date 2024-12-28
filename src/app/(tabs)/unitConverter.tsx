@@ -40,14 +40,16 @@ export default function UnitConverter() {
       </ThemedView>
       <ThemedView style={styles.converterContainer}>
         <ThemedText type="subtitle">Convert From</ThemedText>
-        <Picker
-          style={styles.dropdown}
-          selectedValue={fromUnit}
-          onValueChange={(itemValue) => setFromUnit(itemValue)}>
-          <Picker.Item label="Meters" value="meters" />
-          <Picker.Item label="Feet" value="feet" />
-          <Picker.Item label="Inches" value="inches" />
-        </Picker>
+        <View style={styles.dropdownContainer}>
+          <Picker
+            style={styles.dropdown}
+            selectedValue={fromUnit}
+            onValueChange={(itemValue) => setFromUnit(itemValue)}>
+            <Picker.Item label="Meters" value="meters" />
+            <Picker.Item label="Feet" value="feet" />
+            <Picker.Item label="Inches" value="inches" />
+          </Picker>
+        </View>
         <ThemedText type="subtitle">Value</ThemedText>
         <TextInput
           style={styles.numericInput}
@@ -57,14 +59,16 @@ export default function UnitConverter() {
         />
 
         <ThemedText type="subtitle">Convert To</ThemedText>
-        <Picker
-          style={styles.dropdown}
-          selectedValue={toUnit}
-          onValueChange={(itemValue) => setToUnit(itemValue)}>
-          <Picker.Item label="Meters" value="meters" />
-          <Picker.Item label="Feet" value="feet" />
-          <Picker.Item label="Inches" value="inches" />
-        </Picker>
+        <View style={styles.dropdownContainer}>
+          <Picker
+            style={styles.dropdown}
+            selectedValue={toUnit}
+            onValueChange={(itemValue) => setToUnit(itemValue)}>
+            <Picker.Item label="Meters" value="meters" />
+            <Picker.Item label="Feet" value="feet" />
+            <Picker.Item label="Inches" value="inches" />
+          </Picker>
+        </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button}>
@@ -102,13 +106,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 16,
   },
-  dropdown: {
-    width: '100%',
-    padding: 12,
-    marginVertical: 8,
+  dropdownContainer: {
     borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 1,
+    marginVertical: 8,
+  },
+  dropdown: {
+    width: '100%',
+    padding: 12,
+    borderRadius: 12,
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
