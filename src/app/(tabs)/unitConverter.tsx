@@ -56,22 +56,22 @@ export default function UnitConverter() {
       </ThemedView>
 
       <ThemedView style={styles.converterContainer}>
-        <View>
-          <View style={styles.dropdownContainer}>
-            <Picker
-              style={[
-                styles.dropdown,
-                Platform.select({
-                  web: { padding: 12 },
-                }),
-              ]}
-              selectedValue={input1Unit}
-              onValueChange={(itemValue) => setInput1Unit(itemValue)}>
-              {unitOptions.map((option) => (
-                <Picker.Item key={option.name} label={option.label} value={option.name} />
-              ))}
-            </Picker>
-          </View>
+        <View style={[styles.inputContainer, { marginTop: 0 }]}>
+          <Picker
+            style={[
+              styles.dropdown,
+              Platform.select({
+                web: { padding: 12 },
+              }),
+            ]}
+            selectedValue={input1Unit}
+            onValueChange={(itemValue) => setInput1Unit(itemValue)}>
+            {unitOptions.map((option) => (
+              <Picker.Item key={option.name} label={option.label} value={option.name} />
+            ))}
+          </Picker>
+        </View>
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.numericInput}
             keyboardType="numeric"
@@ -82,6 +82,7 @@ export default function UnitConverter() {
             value={input1Value}
           />
         </View>
+
         <View style={styles.equalSignContainer}>
           <ThemedText type="defaultSemiBold" style={styles.equalSignText}>
             {' '}
@@ -90,7 +91,7 @@ export default function UnitConverter() {
         </View>
 
         <View style={styles.inputGroupContainer}>
-          <View style={styles.dropdownContainer}>
+          <View style={[styles.inputContainer, { marginTop: 0 }]}>
             <Picker
               style={[
                 styles.dropdown,
@@ -105,15 +106,17 @@ export default function UnitConverter() {
               ))}
             </Picker>
           </View>
-          <TextInput
-            style={styles.numericInput}
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              setInput2Value(text);
-              setInput1Value(convertUnits(text, input2Unit, input1Unit));
-            }}
-            value={input2Value}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.numericInput}
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                setInput2Value(text);
+                setInput1Value(convertUnits(text, input2Unit, input1Unit));
+              }}
+              value={input2Value}
+            />
+          </View>
         </View>
       </ThemedView>
     </ParallaxScrollView>
@@ -153,16 +156,18 @@ const styles = StyleSheet.create({
     alignSelf: 'center', // Center align horizontally
   },
   inputGroupContainer: {},
-  dropdownContainer: {
+  inputContainer: {
     borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderColor: 'rgba(255, 255, 255, 0.2)',
     borderWidth: 1,
+    marginTop: 8,
   },
   dropdown: {
     width: '100%',
     borderRadius: 12,
     borderColor: 'transparent',
+    // backgroundColor: 'rgba(255, 255, 255, 0.1)',
     backgroundColor: 'transparent',
     borderWidth: 1,
     shadowColor: '#000',
@@ -170,17 +175,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    height: 48,
     color: 'rgb(184, 184, 184)',
+    overflow: 'visible',
   },
   numericInput: {
     width: '100%',
     padding: 12,
-    marginTop: 8,
     borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(44, 44, 44, 0.8)',
+    borderColor: 'transparent',
     borderWidth: 1,
-    color: 'rgb(184, 184, 184)',
+    color: 'rgb(224, 224, 224)',
     fontSize: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
