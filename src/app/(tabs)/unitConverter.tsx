@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Platform, View, TouchableOpacity, Text } from 'react-native';
 import React, { useState } from 'react';
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -13,8 +12,8 @@ type UnitType = 'meters' | 'feet' | 'inches';
 export default function UnitConverter() {
   const [input1Unit, setInput1Unit] = useState<UnitType>('meters');
   const [input2Unit, setInput2Unit] = useState<UnitType>('feet');
-  const [input1Value, setInput1Value] = useState<string>('0');
-  const [input2Value, setInput2Value] = useState<string>('0');
+  const [input1Value, setInput1Value] = useState<string>('');
+  const [input2Value, setInput2Value] = useState<string>('');
   const unitOptions = unitData;
 
   const convertUnits = (value: string, from: UnitType, to: UnitType) => {
@@ -22,12 +21,17 @@ export default function UnitConverter() {
     const toUnit = unitOptions.find((unit) => unit.name === to);
     if (fromUnit && toUnit) {
       const fromValue = parseFloat(value);
+      if (isNaN(fromValue)) {
+        return '';
+      }
       const baseValue = fromValue * fromUnit.factor;
       const convertedValue = baseValue / toUnit.factor;
       const roundedValue = Math.round(convertedValue * 100000) / 100000;
+      //   console.log(`Converted ${fromValue} ${from} to ${roundedValue} ${to}`);
+
       return roundedValue.toString();
     }
-    return '0';
+    return '';
   };
 
   return (
@@ -41,7 +45,6 @@ export default function UnitConverter() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Unit Converter</ThemedText>
-        <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">How to use</ThemedText>
@@ -62,7 +65,10 @@ export default function UnitConverter() {
             ]}
             mode="dropdown"
             selectedValue={input1Unit}
-            onValueChange={(itemValue) => setInput1Unit(itemValue)}>
+            onValueChange={(itemValue) => {
+              setInput1Unit(itemValue);
+              setInput2Value(convertUnits(input1Value, itemValue, input2Unit));
+            }}>
             {unitOptions.map((option) => (
               <Picker.Item
                 key={option.name}
@@ -102,7 +108,10 @@ export default function UnitConverter() {
             ]}
             selectedValue={input2Unit}
             mode="dropdown"
-            onValueChange={(itemValue) => setInput2Unit(itemValue)}>
+            onValueChange={(itemValue) => {
+              setInput2Unit(itemValue);
+              setInput2Value(convertUnits(input1Value, input1Unit, itemValue));
+            }}>
             {unitOptions.map((option) => (
               <Picker.Item
                 key={option.name}
