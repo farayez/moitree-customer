@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput } from 'react-native-gesture-handler';
-import unitOptionsData from '@/data/units.json';
+import unitData from '@/data/units.json';
 
 type UnitType = 'meters' | 'feet' | 'inches';
 
@@ -14,7 +14,21 @@ export default function UnitConverter() {
   const [fromUnit, setFromUnit] = useState<UnitType>('meters');
   const [toUnit, setToUnit] = useState<UnitType>('feet');
   const [fromInput, setFromInput] = useState<string>('0');
-  const unitOptions = unitOptionsData;
+  const [toInput, setToInput] = useState<string>('0');
+  const unitOptions = unitData;
+
+  const convertUnits = (value: string, from: UnitType, to: UnitType) => {
+    const fromUnit = unitOptions.find((unit) => unit.name === from);
+    const toUnit = unitOptions.find((unit) => unit.name === to);
+    if (fromUnit && toUnit) {
+      const fromValue = parseFloat(value);
+      const baseValue = fromValue * fromUnit.factor;
+      const convertedValue = baseValue / toUnit.factor;
+      const roundedValue = Math.round(convertedValue * 100000) / 100000;
+      return roundedValue.toString();
+    }
+    return '0';
+  };
 
   return (
     <ParallaxScrollView
@@ -54,7 +68,7 @@ export default function UnitConverter() {
             selectedValue={fromUnit}
             onValueChange={(itemValue) => setFromUnit(itemValue)}>
             {unitOptions.map((option) => (
-              <Picker.Item key={option.value} label={option.label} value={option.value} />
+              <Picker.Item key={option.name} label={option.label} value={option.name} />
             ))}
           </Picker>
         </View>
@@ -62,7 +76,10 @@ export default function UnitConverter() {
         <TextInput
           style={styles.numericInput}
           keyboardType="numeric"
-          onChangeText={(text) => setFromInput(text)}
+          onChangeText={(text) => {
+            setFromInput(text);
+            setToInput(convertUnits(text, fromUnit, toUnit));
+          }}
           value={fromInput}
         />
 
@@ -78,10 +95,20 @@ export default function UnitConverter() {
             selectedValue={toUnit}
             onValueChange={(itemValue) => setToUnit(itemValue)}>
             {unitOptions.map((option) => (
-              <Picker.Item key={option.value} label={option.label} value={option.value} />
+              <Picker.Item key={option.name} label={option.label} value={option.name} />
             ))}
           </Picker>
         </View>
+        <ThemedText type="subtitle">Value</ThemedText>
+        <TextInput
+          style={styles.numericInput}
+          keyboardType="numeric"
+          onChangeText={(text) => {
+            setToInput(text);
+            setFromInput(convertUnits(text, toUnit, fromUnit));
+          }}
+          value={toInput}
+        />
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button}>

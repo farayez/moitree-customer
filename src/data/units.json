@@ -1,6 +1,6 @@
 [
-  { "label": "Meters", "value": "meters" },
-  { "label": "Kilometers", "value": "kilometers" },
-  { "label": "Feet", "value": "feet" },
-  { "label": "Inches", "value": "inches" }
+  { "standard": "meters", "label": "Meters", "name": "meters", "factor": 1 },
+  { "standard": "meters", "label": "Kilometers", "name": "kilometers", "factor": 1000 },
+  { "standard": "meters", "label": "Feet", "name": "feet", "factor": 0.3048 },
+  { "standard": "meters", "label": "Inches", "name": "inches", "factor": 0.0254 }
 ]
