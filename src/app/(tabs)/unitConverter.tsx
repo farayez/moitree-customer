@@ -11,10 +11,10 @@ import unitData from '@/data/units.json';
 type UnitType = 'meters' | 'feet' | 'inches';
 
 export default function UnitConverter() {
-  const [fromUnit, setFromUnit] = useState<UnitType>('meters');
-  const [toUnit, setToUnit] = useState<UnitType>('feet');
-  const [fromInput, setFromInput] = useState<string>('0');
-  const [toInput, setToInput] = useState<string>('0');
+  const [input1Unit, setInput1Unit] = useState<UnitType>('meters');
+  const [input2Unit, setInput2Unit] = useState<UnitType>('feet');
+  const [input1Value, setInput1Value] = useState<string>('0');
+  const [input2Value, setInput2Value] = useState<string>('0');
   const unitOptions = unitData;
 
   const convertUnits = (value: string, from: UnitType, to: UnitType) => {
@@ -56,7 +56,7 @@ export default function UnitConverter() {
       </ThemedView>
 
       <ThemedView style={styles.converterContainer}>
-        <ThemedText type="subtitle">Convert From</ThemedText>
+        <ThemedText type="subtitle">Input 1</ThemedText>
         <View style={styles.dropdownContainer}>
           <Picker
             style={[
@@ -65,8 +65,8 @@ export default function UnitConverter() {
                 web: { padding: 12 },
               }),
             ]}
-            selectedValue={fromUnit}
-            onValueChange={(itemValue) => setFromUnit(itemValue)}>
+            selectedValue={input1Unit}
+            onValueChange={(itemValue) => setInput1Unit(itemValue)}>
             {unitOptions.map((option) => (
               <Picker.Item key={option.name} label={option.label} value={option.name} />
             ))}
@@ -77,13 +77,13 @@ export default function UnitConverter() {
           style={styles.numericInput}
           keyboardType="numeric"
           onChangeText={(text) => {
-            setFromInput(text);
-            setToInput(convertUnits(text, fromUnit, toUnit));
+            setInput1Value(text);
+            setInput2Value(convertUnits(text, input1Unit, input2Unit));
           }}
-          value={fromInput}
+          value={input1Value}
         />
 
-        <ThemedText type="subtitle">Convert To</ThemedText>
+        <ThemedText type="subtitle">Input 2</ThemedText>
         <View style={styles.dropdownContainer}>
           <Picker
             style={[
@@ -92,8 +92,8 @@ export default function UnitConverter() {
                 web: { padding: 12 },
               }),
             ]}
-            selectedValue={toUnit}
-            onValueChange={(itemValue) => setToUnit(itemValue)}>
+            selectedValue={input2Unit}
+            onValueChange={(itemValue) => setInput2Unit(itemValue)}>
             {unitOptions.map((option) => (
               <Picker.Item key={option.name} label={option.label} value={option.name} />
             ))}
@@ -104,20 +104,11 @@ export default function UnitConverter() {
           style={styles.numericInput}
           keyboardType="numeric"
           onChangeText={(text) => {
-            setToInput(text);
-            setFromInput(convertUnits(text, toUnit, fromUnit));
+            setInput2Value(text);
+            setInput1Value(convertUnits(text, input2Unit, input1Unit));
           }}
-          value={toInput}
+          value={input2Value}
         />
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Reset</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => alert('Convert!')}>
-            <Text style={styles.buttonText}>Enter</Text>
-          </TouchableOpacity>
-        </View>
       </ThemedView>
     </ParallaxScrollView>
   );
