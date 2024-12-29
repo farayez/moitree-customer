@@ -46,12 +46,8 @@ export default function UnitConverter() {
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">How to use</ThemedText>
         <ThemedText>
-          Select <ThemedText type="defaultSemiBold">Units</ThemedText> to convert to and from. Enter
-          the <ThemedText type="defaultSemiBold">Value</ThemedText> to convert. Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'Ok', android: 'Ok', web: 'Enter' })}
-          </ThemedText>{' '}
-          to start conversion.
+          Select <ThemedText type="defaultSemiBold">Units</ThemedText> to convert to and from. Then
+          enter the <ThemedText type="defaultSemiBold">Value</ThemedText> to convert.
         </ThemedText>
       </ThemedView>
 
@@ -96,39 +92,37 @@ export default function UnitConverter() {
           </ThemedText>
         </View>
 
-        <View style={styles.inputGroupContainer}>
-          <View style={[styles.inputContainer, { marginTop: 0 }]}>
-            <Picker
-              style={[
-                styles.dropdown,
-                Platform.select({
-                  web: { padding: 12 },
-                }),
-              ]}
-              selectedValue={input2Unit}
-              mode="dropdown"
-              onValueChange={(itemValue) => setInput2Unit(itemValue)}>
-              {unitOptions.map((option) => (
-                <Picker.Item
-                  key={option.name}
-                  label={option.label}
-                  value={option.name}
-                  color="black"
-                />
-              ))}
-            </Picker>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.numericInput}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                setInput2Value(text);
-                setInput1Value(convertUnits(text, input2Unit, input1Unit));
-              }}
-              value={input2Value}
-            />
-          </View>
+        <View style={[styles.inputContainer, { marginTop: 0 }]}>
+          <Picker
+            style={[
+              styles.dropdown,
+              Platform.select({
+                web: { padding: 12 },
+              }),
+            ]}
+            selectedValue={input2Unit}
+            mode="dropdown"
+            onValueChange={(itemValue) => setInput2Unit(itemValue)}>
+            {unitOptions.map((option) => (
+              <Picker.Item
+                key={option.name}
+                label={option.label}
+                value={option.name}
+                color="black"
+              />
+            ))}
+          </Picker>
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.numericInput}
+            keyboardType="numeric"
+            onChangeText={(text) => {
+              setInput2Value(text);
+              setInput1Value(convertUnits(text, input2Unit, input1Unit));
+            }}
+            value={input2Value}
+          />
         </View>
       </ThemedView>
     </ParallaxScrollView>
@@ -167,7 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     alignSelf: 'center', // Center align horizontally
   },
-  inputGroupContainer: {},
   inputContainer: {
     borderRadius: 8,
     backgroundColor: 'rgba(65, 65, 65, 0.83)',
@@ -197,37 +190,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     height: 50,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-    marginTop: 16,
-  },
-  button: {
-    padding: 16,
-    borderRadius: 12,
-    backgroundColor: 'rgba(89, 75, 139, 0.9)',
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderWidth: 1,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
-    // Add inner glow effect
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
-    borderTopColor: 'rgba(0, 0, 0, 0.2)',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    textAlign: 'center', // Ensure text is centered
   },
 });
