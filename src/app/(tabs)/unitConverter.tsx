@@ -6,13 +6,15 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput } from 'react-native-gesture-handler';
+import unitOptionsData from '@/data/units.json';
 
 type UnitType = 'meters' | 'feet' | 'inches';
 
 export default function UnitConverter() {
   const [fromUnit, setFromUnit] = useState<UnitType>('meters');
-  const [toUnit, setToUnit] = useState<UnitType>('meters');
+  const [toUnit, setToUnit] = useState<UnitType>('feet');
   const [fromInput, setFromInput] = useState<string>('0');
+  const unitOptions = unitOptionsData;
 
   return (
     <ParallaxScrollView
@@ -51,9 +53,9 @@ export default function UnitConverter() {
             ]}
             selectedValue={fromUnit}
             onValueChange={(itemValue) => setFromUnit(itemValue)}>
-            <Picker.Item label="Meters" value="meters" />
-            <Picker.Item label="Feet" value="feet" />
-            <Picker.Item label="Inches" value="inches" />
+            {unitOptions.map((option) => (
+              <Picker.Item key={option.value} label={option.label} value={option.value} />
+            ))}
           </Picker>
         </View>
         <ThemedText type="subtitle">Value</ThemedText>
@@ -75,9 +77,9 @@ export default function UnitConverter() {
             ]}
             selectedValue={toUnit}
             onValueChange={(itemValue) => setToUnit(itemValue)}>
-            <Picker.Item label="Meters" value="meters" />
-            <Picker.Item label="Feet" value="feet" />
-            <Picker.Item label="Inches" value="inches" />
+            {unitOptions.map((option) => (
+              <Picker.Item key={option.value} label={option.label} value={option.value} />
+            ))}
           </Picker>
         </View>
 
@@ -85,7 +87,7 @@ export default function UnitConverter() {
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Reset</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => alert('Convert!')}>
             <Text style={styles.buttonText}>Enter</Text>
           </TouchableOpacity>
         </View>
