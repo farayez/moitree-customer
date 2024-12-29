@@ -38,11 +38,17 @@ export default function UnitConverter() {
           to start conversion.
         </ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.converterContainer}>
         <ThemedText type="subtitle">Convert From</ThemedText>
         <View style={styles.dropdownContainer}>
           <Picker
-            style={styles.dropdown}
+            style={[
+              styles.dropdown,
+              Platform.select({
+                web: { padding: 12 },
+              }),
+            ]}
             selectedValue={fromUnit}
             onValueChange={(itemValue) => setFromUnit(itemValue)}>
             <Picker.Item label="Meters" value="meters" />
@@ -61,7 +67,12 @@ export default function UnitConverter() {
         <ThemedText type="subtitle">Convert To</ThemedText>
         <View style={styles.dropdownContainer}>
           <Picker
-            style={styles.dropdown}
+            style={[
+              styles.dropdown,
+              Platform.select({
+                web: { padding: 12 },
+              }),
+            ]}
             selectedValue={toUnit}
             onValueChange={(itemValue) => setToUnit(itemValue)}>
             <Picker.Item label="Meters" value="meters" />
@@ -115,7 +126,6 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: '100%',
-    padding: 12,
     borderRadius: 12,
     borderColor: 'transparent',
     backgroundColor: 'transparent',
