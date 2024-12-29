@@ -64,10 +64,16 @@ export default function UnitConverter() {
                 web: { padding: 12 },
               }),
             ]}
+            mode="dropdown"
             selectedValue={input1Unit}
             onValueChange={(itemValue) => setInput1Unit(itemValue)}>
             {unitOptions.map((option) => (
-              <Picker.Item key={option.name} label={option.label} value={option.name} />
+              <Picker.Item
+                key={option.name}
+                label={option.label}
+                value={option.name}
+                color="black"
+              />
             ))}
           </Picker>
         </View>
@@ -100,9 +106,15 @@ export default function UnitConverter() {
                 }),
               ]}
               selectedValue={input2Unit}
+              mode="dropdown"
               onValueChange={(itemValue) => setInput2Unit(itemValue)}>
               {unitOptions.map((option) => (
-                <Picker.Item key={option.name} label={option.label} value={option.name} />
+                <Picker.Item
+                  key={option.name}
+                  label={option.label}
+                  value={option.name}
+                  color="black"
+                />
               ))}
             </Picker>
           </View>
@@ -157,32 +169,24 @@ const styles = StyleSheet.create({
   },
   inputGroupContainer: {},
   inputContainer: {
-    borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 8,
+    backgroundColor: 'rgba(65, 65, 65, 0.83)',
+    borderColor: 'rgba(255, 255, 255, 0.27)',
     borderWidth: 1,
     marginTop: 8,
   },
   dropdown: {
     width: '100%',
-    borderRadius: 12,
     borderColor: 'transparent',
-    // backgroundColor: 'rgba(255, 255, 255, 0.1)',
     backgroundColor: 'transparent',
-    borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    height: 48,
+    borderRadius: 8,
+    height: 50,
     color: 'rgb(184, 184, 184)',
-    overflow: 'visible',
   },
   numericInput: {
     width: '100%',
     padding: 12,
-    borderRadius: 12,
+    borderRadius: 8,
     backgroundColor: 'rgba(44, 44, 44, 0.8)',
     borderColor: 'transparent',
     borderWidth: 1,
@@ -192,6 +196,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    height: 50,
   },
   buttonContainer: {
     flexDirection: 'row',
