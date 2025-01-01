@@ -8,13 +8,20 @@ import { TextInput } from 'react-native-gesture-handler';
 import unitData from '@/data/units.json';
 
 type UnitType = 'meters' | 'feet' | 'inches';
+type UnitOption = {
+  name: string;
+  label: string;
+  factor: number;
+};
 
 export default function UnitConverter() {
   const [input1Unit, setInput1Unit] = useState<UnitType>('meters');
   const [input2Unit, setInput2Unit] = useState<UnitType>('feet');
   const [input1Value, setInput1Value] = useState<string>('');
   const [input2Value, setInput2Value] = useState<string>('');
-  const unitOptions = unitData;
+  const [category, setCategory] = useState<string>('length');
+  const [unitOptions, setUnitOptions] = useState<UnitOption[]>(unitData.length.units);
+  const unitCategories = Object.keys(unitData);
 
   const convertUnits = (value: string, from: UnitType, to: UnitType) => {
     const fromUnit = unitOptions.find((unit) => unit.name === from);
@@ -26,7 +33,7 @@ export default function UnitConverter() {
       }
       const baseValue = fromValue * fromUnit.factor;
       const convertedValue = baseValue / toUnit.factor;
-      const roundedValue = Math.round(convertedValue * 100000) / 100000;
+      const roundedValue = parseFloat(convertedValue.toFixed(5));
       //   console.log(`Converted ${fromValue} ${from} to ${roundedValue} ${to}`);
 
       return roundedValue.toString();
@@ -53,6 +60,26 @@ export default function UnitConverter() {
           enter the <ThemedText type="defaultSemiBold">Value</ThemedText> to convert.
         </ThemedText>
       </ThemedView>
+
+      <View style={[styles.inputContainer, { marginTop: 0 }]}>
+        <Picker
+          style={[
+            styles.dropdown,
+            Platform.select({
+              web: { padding: 12 },
+            }),
+          ]}
+          selectedValue={category}
+          mode="dropdown"
+          onValueChange={(itemValue) => {
+            setCategory(itemValue);
+            setUnitOptions(unitData[itemValue as keyof typeof unitData].units);
+          }}>
+          {unitCategories.map((option) => (
+            <Picker.Item key={option} label={option} value={option} color="black" />
+          ))}
+        </Picker>
+      </View>
 
       <ThemedView style={styles.converterContainer}>
         <View style={[styles.inputContainer, { marginTop: 0 }]}>

@@ -1,6 +1,35 @@
-[
-  { "standard": "meters", "label": "Meters", "name": "meters", "factor": 1 },
-  { "standard": "meters", "label": "Kilometers", "name": "kilometers", "factor": 1000 },
-  { "standard": "meters", "label": "Feet", "name": "feet", "factor": 0.3048 },
-  { "standard": "meters", "label": "Inches", "name": "inches", "factor": 0.0254 }
-]
+{
+  "length": {
+    "label": "Length",
+    "standard": "meters",
+    "units": [
+      { "label": "Meters", "name": "meters", "factor": 1 },
+      { "label": "Kilometers", "name": "kilometers", "factor": 1000 },
+      { "label": "Feet", "name": "feet", "factor": 0.3048 },
+      { "label": "Inches", "name": "inches", "factor": 0.0254 }
+    ]
+  },
+  "area": {
+    "label": "Area",
+    "standard": "sq_meters",
+    "units": [
+      { "label": "Square Meters", "name": "sq_meters", "factor": 1 },
+      { "label": "Square Kilometers", "name": "sq_kilometers", "factor": 1000000 },
+      { "label": "Square Feet", "name": "sq_feet", "factor": 0.092903 },
+      { "label": "Square Inches", "name": "sq_inches", "factor": 0.00064516 }
+    ]
+  },
+  "volume": {
+    "label": "Volume",
+    "standard": "cubic_meters",
+    "units": [
+      { "label": "Cubic Centimeters", "name": "cubic_centimeters", "factor": 0.000001 },
+      { "label": "Cubic Meters", "name": "cubic_meters", "factor": 1 },
+      { "label": "Cubic Kilometers", "name": "cubic_kilometers", "factor": 1000000000 },
+      { "label": "Cubic Feet", "name": "cubic_feet", "factor": 0.0283168 },
+      { "label": "Cubic Inches", "name": "cubic_inches", "factor": 0.0000163871 },
+      { "label": "Liters", "name": "liters", "factor": 0.001 },
+      { "label": "Millilitres", "name": "milliliters", "factor": 0.000001 }
+    ]
+  }
+}
